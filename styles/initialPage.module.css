@@ -1,0 +1,8 @@
+.between {
+    display: flex;
+    justify-content: space-between;
+}
+
+.myCard {
+    border: 0.5px solid black;
+}
