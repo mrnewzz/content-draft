@@ -5,3 +5,27 @@
   width: 100%;
   height: 100vh;
 }
+
+.fontMedium {
+  font-size: 1.5rem;
+}
+
+.fontSmall {
+  font-size: 1rem;
+}
+
+.p1 {
+  padding: 10px 10px;
+}
+
+.p2 {
+  padding: 20px 20px;
+}
+
+.pl1 {
+  padding-left: 10px;
+}
+
+.mt2 {
+  margin-top: 20px;
+}

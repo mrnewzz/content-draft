@@ -3,30 +3,6 @@
     justify-content: space-between;
 }
 
-.pl1 {
-    padding-left: 10px;
-}
-
-.p1 {
-    padding: 10px 10px;
-}
-
-.p2 {
-    padding: 20px 20px;
-}
-
-.mt2 {
-    margin-top: 20px;
-}
-
 .myCard {
     border: 0.5px solid black;
-}
-
-.fontMedium {
-    font-size: 1.5rem;
-}
-
-.fontSmall {
-    font-size: 1rem;
 }

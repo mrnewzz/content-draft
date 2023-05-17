@@ -8,6 +8,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogActions from "@mui/material/DialogActions";
 import Snackbar from "@mui/material/Snackbar";
+import Link from "next/link";
 import moment from "moment";
 
 function Index() {
@@ -42,10 +43,7 @@ function Index() {
 
   async function pageChange(event, page) {
     setOnPage(page);
-    const response = await fetch(url + `?page=${page}&limit=10`);
-    const data = await response.json();
-    setContent(data);
-    setLoading(false);
+    updateData();
   }
 
   async function deleteDraft() {
@@ -72,26 +70,25 @@ function Index() {
     decodeResponse(response);
   }
 
-  async function decodeResponse(res) {
+  function decodeResponse(res) {
     if (res.status === 500) {
-      console.log("respone :", res);
-      setMessage(`พบปัญหา`);
-      setSnack(true);
-      setAlert(false);
-      setConfirm(false);
-    } else if (res.status === 204) {
-      setMessage("ไม่พบข้อมูลตอบกลับมา");
+      setMessage(`พบปัญหา ${res.statusText}`);
       setSnack(true);
       setAlert(false);
       setConfirm(false);
     } else {
-      //  patch complete & new loading ...
-      setLoading(true);
-      const responseDelete = await fetch(url + `?page=${page}&limit=10`);
-      const dataDelete = await responseDelete.json();
-      setContent(dataDelete);
-      setLoading(false);
+      setMessage('อัพเดทสำเร็จ');
+      setSnack(true);
+      updateData();
     }
+  }
+
+  async function updateData() {
+    setLoading(true);
+    const response = await fetch(url + `?page=${page}&limit=10`);
+    const data = await response.json();
+    setContent(data);
+    setLoading(false);
   }
 
   function settingAlert(val, id) {
@@ -117,7 +114,7 @@ function Index() {
   }
 
   return (
-    <div className={styles.p2}>
+    <div className="p2">
       {/* Tabs Zone */}
       <div className={styles.between}>
         <div>
@@ -135,13 +132,15 @@ function Index() {
           </Button>
         </div>
         <div>
-          <Button variant="contained">Create Draft</Button>
+          <Link href={`/detail?id=${"null"}`} passHref>
+            <Button color="success" variant="contained">Create Draft</Button>
+          </Link>
         </div>
       </div>
 
       {/* Content */}
 
-      <div className={styles.mt2}>
+      <div className="mt2">
         {content.posts.length === 0 ? (
           <>ไม่พบข้อมูล</>
         ) : (
@@ -153,20 +152,23 @@ function Index() {
                   className={styles.myCard}
                   style={{ marginBottom: 10 }}
                 >
-                  <div className={styles.p1}>
-                    <label className={styles.fontMedium}> {v.title} </label>
+                  <div className="p1">
+                    <label className="fontMedium"> {v.title} </label>
                     <br />
                     <p> {v.content} </p>
                   </div>
 
                   <div className={styles.between}>
-                    <div className={styles.pl1}>
+                    <div className="pl1">
                       {moment(v.created_at).format("DD-MM-yyyy HH:mm")}
                     </div>
                     <div>
-                      <Button size="small" variant="outlined">
-                        Edit
-                      </Button>
+                      <Link href={`/detail?id=${v.id}`} passHref>
+                        <Button size="small" variant="outlined">
+                          Edit
+                        </Button>
+                      </Link>
+
                       {!postPage ? (
                         <>
                           <Button
@@ -200,7 +202,7 @@ function Index() {
 
       {/* Pagination */}
       <Pagination
-        className={styles.mt2}
+        className="mt2"
         count={content.total_page}
         page={content.page}
         onChange={pageChange}
