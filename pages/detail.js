@@ -32,7 +32,7 @@ function DraftDetail() {
 
   async function onSave() {
     if (model.title === "" || model.content === "") {
-      setMessage("กรุณากรอกข้อมูล title");
+      setMessage("กรุณากรอกข้อมูลให้ครบถ้วน");
       setSnack(true);
     } else {
       setSaveLoad(true);
